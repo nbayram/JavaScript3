@@ -1,3 +1,32 @@
 .alert-error {
   color: red;
+  background: rgb(255, 181, 181);
+  height: 3rem;
+  padding: 2.5rem 0 0 2rem;
+}
+
+body {
+  margin: 1rem 7rem;
+}
+
+header {
+  background: rgb(0, 65, 206);
+  color: white;
+  height: 3rem;
+  padding: 2.5rem 0 0 2rem;
+  margin-bottom: 0.5rem;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  padding: 1rem 0 1rem 2rem;
+  border: 0.1px solid silver;
+  line-height: 1.3rem;
+  box-shadow: 0.2rem 0.2rem 1rem silver;
 }
