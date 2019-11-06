@@ -32,20 +32,22 @@ function renderRepoDetails(repo, ul) {
   const li = createAndAppend('li', ul);
   const table = createAndAppend('table', li);
 
-  const headers = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
-  const keys = ['name', 'description', 'forks', 'updated_at'];
+  let tr = createAndAppend('tr', table);
+  createAndAppend('th', tr, { text: 'Repository:' });
+  let td = createAndAppend('td', tr);
+  createAndAppend('a', td, { href: repo.html_url, text: repo.name });
 
-  for (let i = 0; i < headers.length; ++i) {
-    let tr = createAndAppend('tr', table);
-    createAndAppend('th', tr, { text: headers[i] });
-    if (i === 0) {
-      let td = createAndAppend('td', tr);
-      // When a user clicks on any of the repository names it will show more details about it.
-      createAndAppend('a', td, { href: repo.html_url, text: repo['name'] });
-    } else {
-      createAndAppend('td', tr, { text: repo[keys[i]] });
-    }
-  }
+  tr = createAndAppend('tr', table);
+  createAndAppend('th', tr, { text: 'Description:' });
+  td = createAndAppend('td', tr, { text: repo.description });
+
+  tr = createAndAppend('tr', table);
+  createAndAppend('th', tr, { text: 'Forks:' });
+  td = createAndAppend('td', tr, { text: repo.forks });
+
+  tr = createAndAppend('tr', table);
+  createAndAppend('th', tr, { text: 'Updated:' });
+  td = createAndAppend('td', tr, { text: repo.updated_at });
 }
 
 function main(url) {
