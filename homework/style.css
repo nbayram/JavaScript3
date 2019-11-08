@@ -6,7 +6,7 @@
 }
 
 body {
-  margin: 1rem 7rem;
+  margin: 1rem 4rem;
 }
 
 header {
@@ -18,13 +18,29 @@ header {
   padding-left: 2rem;
 }
 
+select {
+  margin-left: 1rem;
+  height: 2rem;
+}
+
+main {
+  display: flex;
+  background: rgb(235, 235, 235);
+}
+
+section {
+  width: 100%;
+  margin: 0.2rem;
+  background: white;
+}
+
 ul {
   list-style-type: none;
   padding-left: 0;
   margin: 0;
 }
 
-li {
+.repo-container li {
   margin-bottom: 0.5rem;
   padding: 1rem 0 1rem 2rem;
   border: 0.1px solid silver;
@@ -36,6 +52,42 @@ th {
   vertical-align: baseline;
 }
 
+.contributors-container li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid rgb(235, 241, 255);
+}
+
+h4 {
+  color: rgb(110, 110, 110);
+  padding-left: 1rem;
+}
+
+img {
+  flex: 0 0 4rem;
+  height: 4rem;
+  border-radius: 8%;
+}
+
+.login {
+  flex: 1;
+  margin-left: 2%;
+}
+
+.login a {
+  text-decoration: none;
+}
+
+.contributions {
+  display: inline-table;
+  background: rgb(110, 110, 110);
+  padding: 0.2rem 0.4rem;
+  color: white;
+  border-radius: 10%;
+}
+
 @media screen and (max-width: 480px) {
   body {
     margin: 0.5rem 0.5rem;
@@ -43,8 +95,18 @@ th {
   }
 
   header {
-    height: 2rem;
-    padding-left: 1rem;
+    height: auto;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    padding: 1rem 0;
+  }
+
+  select {
+    margin-top: 0.5rem;
+  }
+
+  main {
+    flex-direction: column;
   }
 
   li {
@@ -60,8 +122,18 @@ th {
   }
 
   header {
-    height: 2.5rem;
-    padding-left: 1.5rem;
+    height: auto;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    padding: 1rem 0;
+  }
+
+  select {
+    margin-top: 0.5rem;
+  }
+
+  main {
+    flex-direction: column;
   }
 
   li {

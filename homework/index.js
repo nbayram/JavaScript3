@@ -1,19 +1,14 @@
 'use strict';
 
-function fetchJSON(url, cb) {
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', url);
-  xhr.responseType = 'json';
-  xhr.onload = () => {
-    if (xhr.status >= 200 && xhr.status <= 299) {
-      cb(null, xhr.response);
-    } else {
-      cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-    }
-  };
-  xhr.onerror = () => cb(new Error('Network request failed'));
-  xhr.send();
-}
+// The XMLHttpRequest in the fetchJSON function should be replaced with fetch.
+// Hint: Because fetch returns a promise out of the box there is no need create a Promise yourself with new Promise(...).
+function fetchJSON(url) {
+  return fetch(url)
+    .then(response => {
+      if (response.ok) return response.json();
+      throw new Error(`Network Error: ${response.status} : ${response.statusText}`);
+    })
+};
 
 function createAndAppend(name, parent, options = {}) {
   const elem = document.createElement(name);
@@ -28,6 +23,15 @@ function createAndAppend(name, parent, options = {}) {
   return elem;
 }
 
+// You should be able to click on a contributor to open a new browser tab with the GitHub page for that contributor.
+function renderContributors(contributor, ul) {
+  const li = createAndAppend('li', ul);
+  createAndAppend('img', li, { src: contributor.avatar_url });
+  const spanLogin = createAndAppend('span', li, { class: 'login' });
+  createAndAppend('a', spanLogin, { text: contributor.login, href: contributor.html_url });
+  createAndAppend('span', li, { class: 'contributions', text: contributor.contributions });
+}
+
 function renderRepoDetails(repo, ul) {
   const li = createAndAppend('li', ul);
   const table = createAndAppend('table', li);
@@ -35,6 +39,8 @@ function renderRepoDetails(repo, ul) {
   let tr = createAndAppend('tr', table);
   createAndAppend('th', tr, { text: 'Repository:' });
   let td = createAndAppend('td', tr);
+
+  // You should be able to click on the repository name of the selected repository to open a new browser tab with the GitHub page for that repository.
   createAndAppend('a', td, { href: repo.html_url, text: repo.name });
 
   tr = createAndAppend('tr', table);
@@ -52,24 +58,51 @@ function renderRepoDetails(repo, ul) {
 
 function main(url) {
   const root = document.getElementById('root');
-  createAndAppend('header', root, { text: 'HYF Repositories' });
-  fetchJSON(url, (err, repos) => {
-    if (err) {
+  const header = createAndAppend('header', root, { text: 'HYF Repositories' });
+  const main = createAndAppend('main', root, { class: 'main-container' });
+  const sectionRepo = createAndAppend('section', main, { class: 'repo-container' });
+  const sectionContributors = createAndAppend('section', main, { class: 'contributors-container' });
+  const select = createAndAppend('select', header);
+  createAndAppend('h4', sectionContributors, { text: 'Contributors' });
+
+  fetchJSON(url)
+    .then(repos => {
+      const ulLeft = createAndAppend('ul', sectionRepo);
+      const ulRight = createAndAppend('ul', sectionContributors);
+
+
+      const sortedRepos = repos.sort((currentRepo, nextRepo) => currentRepo.name.localeCompare(nextRepo.name));
+
+      // The list of repositories in the select element should be sorted(case -insensitive) on repository name.
+      sortedRepos.forEach((repo, index) => {
+
+        // An HTML select element from which the user can select a HYF repository.This select element must be populated with option elements, one for each HYF repository.
+        // Add one option element per repository to the select element, where each option element has the array index of the repository as its value attribute and the name of the repository as its text content:
+        createAndAppend('option', select, { value: index, text: repo.name });
+      });
+
+      // At start - up your application should display information about the first repository as displayed in the select element.
+      renderRepoDetails(sortedRepos[select.selectedIndex], ulLeft);
+      fetchJSON(sortedRepos[select.selectedIndex].contributors_url)
+        .then(contributors => contributors.forEach(contributor => renderContributors(contributor, ulRight)));
+
+      // When the user changes the selection, the information in the web page should be refreshed for the newly selected repository.
+      select.onchange = () => {
+        ulLeft.textContent = '';
+        ulRight.textContent = '';
+        renderRepoDetails(sortedRepos[select.selectedIndex], ulLeft);
+        fetchJSON(sortedRepos[select.selectedIndex].contributors_url)
+          .then(contributors => contributors.forEach(contributor => renderContributors(contributor, ulRight)));
+      }
+    })
+    .catch((err) => {
       createAndAppend('div', root, {
         text: err.message,
         class: 'alert-error',
       });
-      return;
-    }
-    const ul = createAndAppend('ul', root);
-    repos
-      // It displays those repositories in an alphabetically - unordered list.   
-      .sort((currentRepo, nextRepo) => currentRepo.name.localeCompare(nextRepo.name))
-      .forEach(repo => renderRepoDetails(repo, ul));
-  });
+    })
 }
 
 const HYF_REPOS_URL =
-  // Display the first 10 items in the HTML file (write JavaScript to add element to the DOM)
-  'https://api.github.com/orgs/HackYourFuture/repos?per_page=10';
+  'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 window.onload = () => main(HYF_REPOS_URL);
