@@ -56,6 +56,10 @@ function renderRepoDetails(repo, ul) {
   td = createAndAppend('td', tr, { text: repo.updated_at });
 }
 
+const x = () => {
+
+}
+
 function main(url) {
   const root = document.getElementById('root');
   const header = createAndAppend('header', root, { text: 'HYF Repositories' });
@@ -93,7 +97,7 @@ function main(url) {
         renderRepoDetails(sortedRepos[select.selectedIndex], ulLeft);
         fetchJSON(sortedRepos[select.selectedIndex].contributors_url)
           .then(contributors => contributors.forEach(contributor => renderContributors(contributor, ulRight)));
-      }
+      };
     })
     .catch((err) => {
       createAndAppend('div', root, {
