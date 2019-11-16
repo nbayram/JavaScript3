@@ -36,29 +36,45 @@ function renderRepoDetails(repo, ul) {
   const li = createAndAppend('li', ul);
   const table = createAndAppend('table', li);
 
-  let tr = createAndAppend('tr', table);
-  createAndAppend('th', tr, { text: 'Repository:' });
-  let td = createAndAppend('td', tr);
+  const headers = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
+  const keys = ['name', 'description', 'forks', 'updated_at'];
 
-  // You should be able to click on the repository name of the selected repository to open a new browser tab with the GitHub page for that repository.
-  createAndAppend('a', td, { href: repo.html_url, text: repo.name });
-
-  tr = createAndAppend('tr', table);
-  createAndAppend('th', tr, { text: 'Description:' });
-  td = createAndAppend('td', tr, { text: repo.description });
-
-  tr = createAndAppend('tr', table);
-  createAndAppend('th', tr, { text: 'Forks:' });
-  td = createAndAppend('td', tr, { text: repo.forks });
-
-  tr = createAndAppend('tr', table);
-  createAndAppend('th', tr, { text: 'Updated:' });
-  td = createAndAppend('td', tr, { text: repo.updated_at });
+  for (let i = 0; i < headers.length; ++i) {
+    let tr = createAndAppend('tr', table);
+    createAndAppend('th', tr, { text: headers[i] });
+    if (i === 0) {
+      let td = createAndAppend('td', tr);
+      // When a user clicks on any of the repository names it will show more details about it.
+      createAndAppend('a', td, { href: repo.html_url, text: repo['name'] });
+    } else {
+      createAndAppend('td', tr, { text: repo[keys[i]] });
+    }
+  }
 }
 
-const x = () => {
+// function renderRepoDetails(repo, ul) {
+//   const li = createAndAppend('li', ul);
+//   const table = createAndAppend('table', li);
 
-}
+//   let tr = createAndAppend('tr', table);
+//   createAndAppend('th', tr, { text: 'Repository:' });
+//   let td = createAndAppend('td', tr);
+
+//   // You should be able to click on the repository name of the selected repository to open a new browser tab with the GitHub page for that repository.
+//   createAndAppend('a', td, { href: repo.html_url, text: repo.name });
+
+//   tr = createAndAppend('tr', table);
+//   createAndAppend('th', tr, { text: 'Description:' });
+//   td = createAndAppend('td', tr, { text: repo.description });
+
+//   tr = createAndAppend('tr', table);
+//   createAndAppend('th', tr, { text: 'Forks:' });
+//   td = createAndAppend('td', tr, { text: repo.forks });
+
+//   tr = createAndAppend('tr', table);
+//   createAndAppend('th', tr, { text: 'Updated:' });
+//   td = createAndAppend('td', tr, { text: repo.updated_at });
+// }
 
 function main(url) {
   const root = document.getElementById('root');
