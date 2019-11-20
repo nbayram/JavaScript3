@@ -14,10 +14,6 @@
       }
     }
 
-    /**
-     * Renders the repository details.
-     * @param {Object} repo A repository object.
-     */
     render(repo) {
       // TODO: replace this comment and the console.log with your own code
       this.container.innerHTML = '';
@@ -42,7 +38,6 @@
       tr = createAndAppend('tr', table);
       createAndAppend('th', tr, { text: 'Updated:' });
       td = createAndAppend('td', tr, { text: repo.updated_at });
-      // console.log('RepoView', repo);
     }
   }
 

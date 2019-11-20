@@ -14,12 +14,7 @@
       }
     }
 
-    /**
-     * Renders the list of contributors
-     * @param {Object[]} contributors An array of contributor objects
-     */
     render(contributors) {
-      // TODO: replace this comment and the console.log with your own code
       this.container.textContent = '';
       contributors.forEach(contributor => {
         const li = createAndAppend('li', this.container);
@@ -28,7 +23,6 @@
         createAndAppend('a', spanLogin, { text: contributor.login, href: contributor.html_url });
         createAndAppend('span', li, { class: 'contributions', text: contributor.contributions });
       })
-      // console.log('ContributorsView', contributors);
     }
   }
 

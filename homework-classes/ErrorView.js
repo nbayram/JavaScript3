@@ -12,10 +12,6 @@
       this.render(state.error);
     }
 
-    /**
-     * Renders an error for the 'error' message type.
-     * @param {Error} error An Error object
-     */
     render(error) {
       this.container.innerHTML = '';
       if (error) {

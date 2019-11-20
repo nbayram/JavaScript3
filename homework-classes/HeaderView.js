@@ -17,11 +17,6 @@
       }
     }
 
-    /**
-     * Renders the data for the 'select' message type. Create a <select> element
-     * and its <option> children.
-     * @param {Object[]} repos An array of repository objects.
-     */
     render(repos) {
       createAndAppend('div', this.header, { text: this.account.name });
       this.select = createAndAppend('select', this.header, {
